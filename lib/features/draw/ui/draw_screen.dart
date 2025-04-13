@@ -3,6 +3,7 @@ import 'package:sketchy/features/draw/models/stroke.dart';
 import 'package:sketchy/features/draw/ui/widgets/color_picker.dart';
 import 'package:sketchy/features/draw/ui/widgets/draw_painter.dart';
 import 'package:sketchy/features/draw/ui/widgets/draw_tool_bar.dart';
+import 'package:sketchy/features/draw/ui/widgets/save_dialog.dart';
 
 class DrawScreen extends StatefulWidget {
   const DrawScreen({super.key});
@@ -34,6 +35,14 @@ class _DrawScreenState extends State<DrawScreen> {
           },
           icon: const Icon(Icons.arrow_back_ios_new_outlined),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              showSaveSketchDialog(context: context, strokes: _strokes);
+            },
+            icon: const Icon(Icons.save, size: 30, color: Colors.black),
+          ),
+        ],
       ),
       body: Column(
         children: <Widget>[
@@ -51,7 +60,7 @@ class _DrawScreenState extends State<DrawScreen> {
               onPanEnd: (DragEndDetails details) {
                 setState(() {
                   _strokes.add(
-                    Stroke(
+                    Stroke.fromOffsetList(
                       points: List.from(_currentPoints),
                       color: _selectedColor,
                       brushSize: _selectedBrushSize,

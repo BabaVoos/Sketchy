@@ -20,14 +20,20 @@ class DrawPainter extends CustomPainter {
     for (final Stroke stroke in strokes) {
       final Paint paint =
           Paint()
-            ..color = stroke.color
+            ..color = stroke.strokeColor
             ..strokeCap = StrokeCap.round
             ..strokeWidth = stroke.brushSize;
 
-      for (int i = 0; i < stroke.points.length - 1; i++) {
-        if (stroke.points[i] != Offset.zero &&
-            stroke.points[i + 1] != Offset.zero) {
-          canvas.drawLine(stroke.points[i], stroke.points[i + 1], paint);
+      final points = stroke.offsetPoints;
+
+      for (int i = 0; i < points.length - 1; i++) {
+        if (points[i] != Offset.zero &&
+            points[i + 1] != Offset.zero) {
+          canvas.drawLine(
+            points[i],
+            points[i + 1],
+            paint,
+          );
         }
       }
     }
@@ -40,7 +46,7 @@ class DrawPainter extends CustomPainter {
             ..strokeCap = StrokeCap.round
             ..strokeWidth = brushSize;
 
-      for (int i = 0; i < currentPoints.length - 1; i++) { 
+      for (int i = 0; i < currentPoints.length - 1; i++) {
         if (currentPoints[i] != Offset.zero &&
             currentPoints[i + 1] != Offset.zero) {
           canvas.drawLine(currentPoints[i], currentPoints[i + 1], paint);
